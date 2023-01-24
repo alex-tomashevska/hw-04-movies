@@ -1,0 +1,32 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 15px;
+    max-width: 1170px;
+}
+
+.list{
+    display: flex;
+}
+
+.item {
+
+}
+
+.link{
+    display: block;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #61dafb;
+    text-decoration: none;
+}
+.link:hover{
+    text-decoration: underline;
+}
+
+.title {
+    text-transform: uppercase;
+    cursor: pointer;
+}

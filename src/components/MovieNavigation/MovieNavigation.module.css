@@ -1,0 +1,17 @@
+.list {
+    display: flex;
+}
+
+/*.item:not(:last-child) {*/
+/*    margin-right: 20px;*/
+/*}*/
+
+.link {
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #61dafb;
+}
+.link:hover:focus {
+    text-decoration: none;
+}
