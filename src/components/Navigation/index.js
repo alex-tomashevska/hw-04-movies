@@ -10,7 +10,7 @@ export const Navigation = memo(() => {
     <nav className={styles.nav}>
       <ul className={styles.list}>
         <li className={styles.item}>
-          <NavLink to="/home" className={styles.link}>
+          <NavLink to="/" className={styles.link}>
             Home
           </NavLink>
         </li>

@@ -5,22 +5,29 @@
     margin: 0 auto;
     padding: 0 15px;
     max-width: 1170px;
+
 }
 
 .list{
     display: flex;
+    flex-wrap: wrap;
+    font-size: 22px;
+    text-decoration: none;
+
 }
 
 .item {
+    margin-right: 50px;
 
 }
 
 .link{
+    list-style: none;
     display: block;
     padding-top: 20px;
     padding-bottom: 20px;
     color: #61dafb;
-    text-decoration: none;
+
 }
 .link:hover{
     text-decoration: underline;

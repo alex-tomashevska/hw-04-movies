@@ -1,63 +1,38 @@
 /** @format */
 
-import {memo, useState} from 'react'
-import {useLocation} from "react-router-dom";
-import axios from "axios";
+import { memo, useEffect, useState } from "react";
 
-import styles from './HomePage.module.css'
-import {Movie} from "../../components";
+import { Movie } from "../../components";
+import { getTrending } from "../../services";
+
+import styles from "./HomePage.module.css";
 
 export const HomePage = memo(() => {
   const [trends, setTrends] = useState([]);
-  // const [isLoading, setLoading] = useState(false);
-  // const [error, setError] = useState('');
-  
-  // const handleLoad = () => {
-  //   setLoading(true);
-    const location = useLocation()
-    console.log(location)
-    const {movies} = location.pathname;
-    
-    
-    axios.get(movies)
-      .then((movies) => {
-        setTrends(movies.data.pathname)
-      })
-      .catch(console.error)
-      // .finally(() => setLoading(false))
-    
-  // }
-  
-  
-  // return (
-  //   <main>
-  //     {trends? (
-  //       <MovieList movies={trends}/>
-  //     ) : (
-  //       <Message>
-  //         <h2>
-  //           The service is temporarily unavailable. Please try again later.
-  //         </h2>
-  //       </Message>
-  //     )
-  //     }
-  //     {isLoading}
-  //   </main>
-  // )
-  
-  const {movieList} = {trends}
-  
-  return(
+  const [isLoading, setLoading] = useState(false);
+
+  const handleChangeTrends = (results) => setTrends(results);
+  const handleLoading = () => setLoading((prev) => !prev);
+  console.log(trends);
+
+  useEffect(() => {
+    getTrending(handleChangeTrends, handleLoading);
+  }, []);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  return (
     <>
       <h1>Trends today</h1>
-      {trends? (
+      {trends.length ? (
         <div className={styles.list}>
-        <Movie items={movieList}/>
+          <Movie items={trends} />
         </div>
       ) : (
         <h2>The service is temporarily unavailable. Please try again later.</h2>
       )}
-      
     </>
-  )
-})
+  );
+});

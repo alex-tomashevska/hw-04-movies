@@ -1,55 +1,54 @@
 /** @format */
 
 import {memo, useEffect, useState} from 'react'
-import {useLocation} from "react-router-dom";
 import axios from "axios";
-import {LoadMoreButton, MovieList, SearchForm} from "../../components";
+//import {getSearchMovies} from '../../services'
+import {LoadMoreButton, Movie, SearchForm} from "../../components";
+
+import styles from './MoviesPage.module.css'
+import apiKey from "../../services/baseUrl";
+
 
 export const MoviesPage = memo(() => {
-  const location = useLocation();
-  const { search } = location;
   
-  const [data, setData] = useState([]);
-  const [input, setInput] = useState(search)
+  const [movies, setMovies] = useState([]);
+  const [input, setInput] = useState('')
   const [isLoading, setLoading] = useState(false)
-  const [page, setPage] = useState(1)
+
+  // const handleChangeMovies = (newMovies = []) => setMovies((prevMovies) => [...prevMovies, ...newMovies])
+  const handleSearchInput = ({target: {value}}) => setInput(value)
+  const handleLoad = () => setLoading(prev => !prev)
+  const handleChangeMovies = (results) => setMovies(results)
   
-  const handlePage = () => setPage((prevPage) => prevPage+1)
-  const handleData = (newData = []) => setData((prevData) => [...prevData, ...newData])
-  const handleInput = ({target: {value}}) => setInput(value)
+  
+   const url = `https://api.themoviedb.org/3/search/search-movies/query=${input}?api_key=${apiKey}`
+  
+  const getSearchMovies = () => {
+    setLoading(true)
+    axios.get(url)
+      .then((response) => setMovies(response.data.results))
+      //.catch(({message}) => alert((message)))
+      .finally(() => setLoading(false))
+
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    handleLoad(true)
+  }
   
   useEffect(() => {
-    if (!input) return
-    getMovies()
-  }, [input])
+    getSearchMovies(handleChangeMovies, handleLoad)
+  }, [])
   
-  const getMovies = () => {
-    setLoading(true)
-    
-    axios.get(search)
-      .then((response) => {
-      if(search.length !== 0){
-        handleData(response.data.pathname)
-      } else {
-        handleData()
-      }
-        handlePage()
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false))
-  }
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    
-    getMovies(true)
-    
-  }
   
   return(
     <>
-      <SearchForm value={input} handleInput={handleInput()} handleSubmit={handleSubmit}/>
-      <MovieList movies={data}/>
-      {data.length > 0 && <LoadMoreButton onClick={getMovies} />}
+      <SearchForm value={input} handleSearchInput={handleSearchInput}  handleSubmit={handleSubmit}/>
+      <ul className={styles.cardList}>
+        <Movie items={movies}/>
+      </ul>
+      {movies?.length > 0 && <LoadMoreButton onClick={getSearchMovies} />}
     </>
   )
-} )
+})
