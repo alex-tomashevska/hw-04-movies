@@ -4,7 +4,7 @@ import { transformationData } from "../utils";
 
 import url from "./baseUrl";
 
-export const getTrending = (setResult, setLoading) => {
+export const getTrending = (setTrends, setLoading) => {
   setLoading();
   axios
     .get(url.trendingUrl)
@@ -12,32 +12,49 @@ export const getTrending = (setResult, setLoading) => {
     //  .then(res => {
     //    console.log('res: ', res)
     //  })
-    .then(({ data }) => setResult(transformationData(data?.results)))
+    .then(({ data }) => setTrends(transformationData(data?.results)))
     .catch(({ message }) => alert(message))
     // .catch((err) => console.log('getTrending:', err))
     .finally(setLoading);
   // console.log(url.trendingUrl)
 };
 
-export const getMovieDetails = (setMovie, setLoading) => {
-  axios
-    .get(url.movieDetails)
-    .then((response) => {
-      setMovie({ ...response.data });
-    })
-    .catch(console.error)
-    .finally(() => setLoading(false));
-};
+// export const getMovieDetails = (setMovie, setLoading, if) => {
+//   setLoading(true);
+//   axios
+//     .get(url.movieDetails(id))
+//     .then(({ data }) => {
+//       setMovie(transformationData(data?.results));
+//     })
+//     .catch(console.error)
+//     .finally(() => setLoading(false));
+// };
 
-export const getMovieCredits = () => {};
+// export const getMovieCast = (setActors, setLoading, id) => {
+//   setLoading(true);
+//   axios
+//     .get(url.movieCast(id))
+//     .then(({ data }) => setActors(transformationData({ ...data })))
+//     .catch(({ message }) => alert(message))
+//     .finally(() => setLoading(false));
+// };
 
-export const getMovieReviews = () => {};
+// export const getMovieReviews = (setReviews, setLoading, id) => {
+//   setLoading(true);
+//   axios
+//     .get(url.movieReviews(id))
+//     .then(({ data }) => {
+//       console.log(data);
+//       setReviews(data?.results);
+//     })
+//     .finally(() => setLoading(false));
+// };
 
-// export const getSearchMovies = (setResult, setLoading, input) => {
-//   setLoading(true)
-//   axios.get(`https://api.themoviedb.org/3/search/search-movies/query=${input}?api_key=`+ apiKey)
-//     .then((response) => setResult(response?.results))
-//     // .catch(({message}) => alert((message)))
-//     .finally(() => setLoading(false))
-//
-// }
+// export const getSearchMovies = (setLoading, value, setMovies) => {
+//   setLoading(true);
+//   axios
+//     .get(url.searchMovies(value))
+//     .then(({ data }) => setMovies(transformationData(data?.results)))
+//     //.catch(({ message }) => alert(message))
+//     .finally(() => setLoading(false));
+// };

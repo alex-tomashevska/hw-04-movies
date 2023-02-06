@@ -1,13 +1,12 @@
 /** @format */
 
 import { memo } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import imageApi from "../../services/baseUrl";
 import styles from "./Movie.module.css";
 
 export const Movie = memo(({ items }) => {
-  console.log("items", items);
   return (
     <>
       {items.map((item) => (
@@ -20,12 +19,10 @@ export const Movie = memo(({ items }) => {
             title={item.title}
           />
 
-          <NavLink to={{ pathname: `/movies/${item.id}` }}>
-            <div className={styles.title}>
-              <h1>{item.title}</h1>
-              <p>({item.date})</p>
-            </div>
-          </NavLink>
+          <Link to={`/movies/${item.id}`}>
+            <h1 className={styles.title}> {item.title} </h1>
+            <h4 className={styles.movieCardInfo}> {item.date} </h4>
+          </Link>
         </div>
       ))}
     </>

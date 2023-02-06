@@ -1,9 +1,9 @@
 /** @format */
 
-import {memo} from 'react'
-import {NavLink} from "react-router-dom";
+import { memo } from "react";
+import { NavLink } from "react-router-dom";
 
-import styles from './Navigation.module.css'
+import styles from "./Navigation.module.css";
 
 export const Navigation = memo(() => {
   return (
@@ -14,7 +14,7 @@ export const Navigation = memo(() => {
             Home
           </NavLink>
         </li>
-        
+
         <li>
           <NavLink to="/movies" className={styles.link}>
             Movies
@@ -22,7 +22,6 @@ export const Navigation = memo(() => {
         </li>
       </ul>
       <p className={styles.title}> Top movies</p>
-            
     </nav>
-  )
-})
+  );
+});

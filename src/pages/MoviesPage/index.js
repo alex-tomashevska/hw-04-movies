@@ -3,48 +3,49 @@
 import { memo, useEffect, useState } from "react";
 import axios from "axios";
 
-//import {getSearchMovies} from '../../services'
+//import { getSearchMovies } from "../../services";
 import { LoadMoreButton, Movie, SearchForm } from "../../components";
-import apiKey from "../../services/baseUrl";
+import url from "../../services/baseUrl";
+import { transformationData } from "../../utils";
 
 import styles from "./MoviesPage.module.css";
 
-const url = (input) =>
-  `https://api.themoviedb.org/3/search/search-movies/query=${input}?api_key=${apiKey}`;
-
 export const MoviesPage = memo(() => {
   const [movies, setMovies] = useState([]);
-  const [input, setInput] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const [value, setValue] = useState("");
 
-  // const handleChangeMovies = (newMovies = []) => setMovies((prevMovies) => [...prevMovies, ...newMovies])
-  const handleSearchInput = ({ target: { value } }) => setInput(value);
-  const handleLoad = () => setLoading((prev) => !prev);
-  const handleChangeMovies = (results) => setMovies(results);
+  const handleChangeValue = ({ target: { value } }) => setValue(value);
+
+  //const handleChangeMovies = (results) => setMovies(results);
+  //const handleLoad = () => setLoading((prev) => !prev);
 
   const getSearchMovies = () => {
     setLoading(true);
     axios
-      .get(url(input))
-      .then((response) => setMovies(response.data.results))
-      //.catch(({message}) => alert((message)))
+      .get(url.searchMovies(value))
+      .then(({ data }) => setMovies(transformationData(data?.results)))
+      // .catch(({ message }) => alert(message))
       .finally(() => setLoading(false));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleLoad(true);
+    getSearchMovies();
   };
 
   useEffect(() => {
-    getSearchMovies(handleChangeMovies, handleLoad);
+    getSearchMovies();
   }, []);
+
+  console.log("movies", movies);
 
   return (
     <>
+      {isLoading && <h1>Loading ...</h1>}
       <SearchForm
-        value={input}
-        handleSearchInput={handleSearchInput}
+        value={value}
+        handleChangeValue={handleChangeValue}
         handleSubmit={handleSubmit}
       />
       <ul className={styles.cardList}>

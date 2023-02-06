@@ -50,11 +50,19 @@
     margin: 10px;
 
 }
+
+
 .poster{
     width: 300px;
-
+    height: 400px;
 }
 .title{
+    font-size: 19px;
+    color: #282c34;
 
+}
 
+.movieCardInfo{
+    font-size: 16px;
+    color: #282c34;
 }

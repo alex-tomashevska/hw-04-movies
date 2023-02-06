@@ -29,9 +29,9 @@
     color: #61dafb;
 
 }
-.link:hover{
-    text-decoration: underline;
-}
+/*.link:hover{*/
+/*    text-decoration: underline;*/
+/*}*/
 
 .title {
     text-transform: uppercase;

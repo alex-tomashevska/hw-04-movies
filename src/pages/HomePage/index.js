@@ -13,7 +13,7 @@ export const HomePage = memo(() => {
 
   const handleChangeTrends = (results) => setTrends(results);
   const handleLoading = () => setLoading((prev) => !prev);
-  console.log(trends);
+  // console.log(trends);
 
   useEffect(() => {
     getTrending(handleChangeTrends, handleLoading);
