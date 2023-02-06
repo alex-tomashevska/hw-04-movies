@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { transformationData } from "../utils";
+import { transformationMoviesData } from "../utils";
 
 import url from "./baseUrl";
 
@@ -12,7 +12,7 @@ export const getTrending = (setTrends, setLoading) => {
     //  .then(res => {
     //    console.log('res: ', res)
     //  })
-    .then(({ data }) => setTrends(transformationData(data?.results)))
+    .then(({ data }) => setTrends(transformationMoviesData(data?.results)))
     .catch(({ message }) => alert(message))
     // .catch((err) => console.log('getTrending:', err))
     .finally(setLoading);

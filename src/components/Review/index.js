@@ -7,7 +7,7 @@ import axios from "axios";
 
 import url from "../../services/baseUrl";
 import styles from "./Review.module.css";
-import { transformationData } from "../../utils";
+import { transformationMoviesData } from "../../utils";
 
 export const Review = memo(() => {
   const [reviews, setReviews] = useState([]);
@@ -23,7 +23,7 @@ export const Review = memo(() => {
       .get(url.movieReviews(id))
       .then(({ data }) => {
         //console.log(data);
-        setReviews(transformationData(data?.results));
+        setReviews(transformationMoviesData(data?.results));
       })
       .finally(() => setLoading(false));
   };

@@ -6,7 +6,7 @@ import axios from "axios";
 //import { getSearchMovies } from "../../services";
 import { LoadMoreButton, Movie, SearchForm } from "../../components";
 import url from "../../services/baseUrl";
-import { transformationData } from "../../utils";
+import { transformationMoviesData } from "../../utils";
 
 import styles from "./MoviesPage.module.css";
 
@@ -24,7 +24,7 @@ export const MoviesPage = memo(() => {
     setLoading(true);
     axios
       .get(url.searchMovies(value))
-      .then(({ data }) => setMovies(transformationData(data?.results)))
+      .then(({ data }) => setMovies(transformationMoviesData(data?.results)))
       // .catch(({ message }) => alert(message))
       .finally(() => setLoading(false));
   };

@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Navigation } from "./components";
+import { Cast, Navigation, Review } from "./components";
 import { HomePage, MovieDetailsPage, MoviesPage } from "./pages";
 
 export const App = memo(() => {
@@ -10,11 +10,12 @@ export const App = memo(() => {
     <>
       <Navigation />
       <Routes>
-        <Route path="/" element={<HomePage />}>
-          <Route path="/movies" element={<MoviesPage />} />
-          <Route path="/movies/id" element={<MovieDetailsPage />} />
-          <Route path="*" element={<HomePage />} />
-        </Route>
+        <Route path="/" element={<HomePage />} />
+        {/*<Route path="/movies" element={<MoviesPage />} />*/}
+        <Route path="/movies/:id" element={<MovieDetailsPage />} />
+        <Route path="/movies/:id/cast" element={<Cast />} />
+        <Route path="/movies/:id/reviews" element={<Review />} />
+        {/*<Route path="*" element={<HomePage />} />*/}
       </Routes>
     </>
   );
