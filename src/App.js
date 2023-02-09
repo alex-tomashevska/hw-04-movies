@@ -11,7 +11,7 @@ export const App = memo(() => {
       <Navigation />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/*<Route path="/movies" element={<MoviesPage />} />*/}
+        <Route path="/movies" element={<MoviesPage />} />
         <Route path="/movies/:id" element={<MovieDetailsPage />} />
         <Route path="/movies/:id/cast" element={<Cast />} />
         <Route path="/movies/:id/reviews" element={<Review />} />
