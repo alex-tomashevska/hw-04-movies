@@ -3,6 +3,8 @@
 import { memo, useEffect, useState } from "react";
 import axios from "axios";
 
+import { useParams } from "react-router-dom";
+
 //import { getMovieReviews } from "../../services";
 
 import url from "../../services/baseUrl";
@@ -15,6 +17,7 @@ export const Review = memo(() => {
   const [isLoading, setLoading] = useState(false);
 
   const { id } = useParams();
+
   //const handleReviews = (review) => setReviews(review);
   //const handleLoading = () => setLoading((prev) => !prev);
 
