@@ -1,59 +1,59 @@
 /** @format */
 
-import {memo, useState} from 'react'
-import {useLocation} from "react-router-dom";
+import { memo, useEffect, useState } from "react";
 import axios from "axios";
 
+import { useParams } from "react-router-dom";
 
-import styles from './Review.module.css'
+//import { getMovieReviews } from "../../services";
+
+import url from "../../services/baseUrl";
+import { transformationMoviesReviews } from "../../utils";
+
+import styles from "./Review.module.css";
 
 export const Review = memo(() => {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  // const [error, setError] = useState('');
-  
-  const location = useLocation()
-  
-  // useEffect(() => {
-  // })
-  
-  // const handleReview = (review) => setReviews(review)
-  
- 
-    setLoading(true)
-  
-    const {movieId} = location.params;
-    
+
+  const { id } = useParams();
+
+  //const handleReviews = (review) => setReviews(review);
+  //const handleLoading = () => setLoading((prev) => !prev);
+
+  const getMovieReviews = () => {
+    setLoading(true);
+
     axios
-      .get(movieId)
-        // setReviews(movieId)
-      .then((response)=> {
-        console.log(response)
-        setReviews(response.data.results)
-    })
-      .catch(console.error)
-      .finally(()=> setLoading(false))
-  
-  
-  return(
+      .get(url.movieReviews(id))
+      .then(({ data: { results } }) =>
+        setReviews(transformationMoviesReviews(results))
+      )
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    getMovieReviews();
+  }, []);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!reviews.length) {
+    return <p>We dont have any reviews for this movie</p>;
+  }
+
+  return (
     <div>
-      {isLoading && reviews.length === 0
-        ? (<p>We dont have any reviews for this movie</p>)
-        : (
-          <ul className={styles.list}>
-            {reviews.map(({id, author, content}) => (
-                <li className={styles.item} key={id}>
-                  <p className={styles.author}> {author} </p>
-                  <p className={styles.content}> {content} </p>
-                </li>
-            ))}
-          </ul>
-    
-        )
-      }
-      
+      <ul className={styles.list}>
+        {reviews.map(({ id, author, content }) => (
+          <li className={styles.item} key={id}>
+            <p className={styles.author}> {author} </p>
+            <p className={styles.content}> {content} </p>
+          </li>
+        ))}
+      </ul>
     </div>
-    )
-  
-  
-})
+  );
+});

@@ -10,7 +10,7 @@
 }
 h1 {
     text-align: center;
-    font-family: "Bangers", cursive;
-    color: rgb(53, 119, 119);
-    letter-spacing: 1ch;
+    font-size: 20px;
+    color: #282c34;
+
 }

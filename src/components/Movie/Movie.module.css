@@ -1,45 +1,68 @@
-.article{
-    position: relative;
-    padding-bottom: 20px;
+/*.article{*/
+/*    position: relative;*/
+/*    padding-bottom: 20px;*/
+/*    display: flex;*/
+/*}*/
+
+/*.title{*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.score{*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.overview {*/
+/*    margin-bottom: 20px;*/
+/*}*/
+/*.themovieb {*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.poster {*/
+/*    height: auto;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+/*.label {*/
+/*    margin-right: 5px;*/
+/*}*/
+
+/*.genresList {*/
+/*    margin-top: 10px;*/
+/*}*/
+
+/*.genresItem:not(:last-child) {*/
+/*     margin-bottom: 10px;*/
+/* }*/
+
+/*.genresItem::before {*/
+/*     content: '▶';*/
+
+/*     margin-right: 10px;*/
+
+/*     color: #61dafb;*/
+/* }*/
+
+.movieCard{
     display: flex;
+    flex-direction: column;
+    margin: 10px;
+
 }
 
+
+.poster{
+    width: 300px;
+    height: 400px;
+}
 .title{
-    margin-bottom: 20px;
+    font-size: 19px;
+    color: #282c34;
+
 }
 
-.score{
-    margin-bottom: 20px;
+.movieCardInfo{
+    font-size: 16px;
+    color: #282c34;
 }
-
-.overview {
-    margin-bottom: 20px;
-}
-.themovieb {
-    margin-bottom: 20px;
-}
-
-.poster {
-    height: auto;
-    border-radius: 5px;
-}
-
-.label {
-    margin-right: 5px;
-}
-
-.genresList {
-    margin-top: 10px;
-}
-
-.genresItem:not(:last-child) {
-     margin-bottom: 10px;
- }
-
-.genresItem::before {
-     content: '▶';
-
-     margin-right: 10px;
-
-     color: #61dafb;
- }

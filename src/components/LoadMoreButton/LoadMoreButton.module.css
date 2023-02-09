@@ -1,11 +1,11 @@
 .wrapper {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin: 20px;
 }
 
 .button {
-    display: inline-block;
+    display: flex;
     min-width: 180px;
     padding: 8px 16px;
     border: 0;
@@ -14,7 +14,5 @@
     text-align: center;
     text-decoration: none;
     font-size: 18px;
-}
-.button:hover,cursor {
-    opacity: 0.8;
+    cursor: pointer;
 }

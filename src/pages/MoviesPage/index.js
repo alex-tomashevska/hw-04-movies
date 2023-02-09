@@ -1,55 +1,64 @@
 /** @format */
 
-import {memo, useEffect, useState} from 'react'
-import {useLocation} from "react-router-dom";
+import { memo, useEffect, useState } from "react";
 import axios from "axios";
-import {LoadMoreButton, MovieList, SearchForm} from "../../components";
+
+//import { getSearchMovies } from "../../services";
+import { LoadMoreButton, Movie, SearchForm } from "../../components";
+import url from "../../services/baseUrl";
+import { transformationMoviesData } from "../../utils";
+
+import styles from "./MoviesPage.module.css";
 
 export const MoviesPage = memo(() => {
-  const location = useLocation();
-  const { search } = location;
-  
-  const [data, setData] = useState([]);
-  const [input, setInput] = useState(search)
-  const [isLoading, setLoading] = useState(false)
-  const [page, setPage] = useState(1)
-  
-  const handlePage = () => setPage((prevPage) => prevPage+1)
-  const handleData = (newData = []) => setData((prevData) => [...prevData, ...newData])
-  const handleInput = ({target: {value}}) => setInput(value)
-  
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [value, setValue] = useState("");
+
+  const handleChangeValue = ({ target: { value } }) => setValue(value);
+
+  const handleChangeMovies = (data) => setMovies((prev) => [...prev, ...data]);
+
+  //const handleLoad = () => setLoading((prev) => !prev);
+
+  const getSearchMovies = () => {
+    setLoading(true);
+    axios
+      .get(url.searchMovies(value))
+      .then(({ data }) =>
+        // setMovies((prev) => [
+        //   ...prev,
+        //   ...transformationMoviesData(data?.results),
+        // ])
+        handleChangeMovies(transformationMoviesData(data?.results))
+      )
+      // .catch(({ message }) => alert(message))
+      .finally(() => setLoading(false));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    getSearchMovies();
+  };
+
   useEffect(() => {
-    if (!input) return
-    getMovies()
-  }, [input])
-  
-  const getMovies = () => {
-    setLoading(true)
-    
-    axios.get(search)
-      .then((response) => {
-      if(search.length !== 0){
-        handleData(response.data.pathname)
-      } else {
-        handleData()
-      }
-        handlePage()
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false))
-  }
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    
-    getMovies(true)
-    
-  }
-  
-  return(
+    getSearchMovies();
+  }, []);
+
+  console.log("movies", movies);
+
+  return (
     <>
-      <SearchForm value={input} handleInput={handleInput()} handleSubmit={handleSubmit}/>
-      <MovieList movies={data}/>
-      {data.length > 0 && <LoadMoreButton onClick={getMovies} />}
+      {isLoading && <h1>Loading ...</h1>}
+      <SearchForm
+        value={value}
+        handleChangeValue={handleChangeValue}
+        handleSubmit={handleSubmit}
+      />
+      <ul className={styles.cardList}>
+        <Movie items={movies} />
+      </ul>
+      {movies?.length > 0 && <LoadMoreButton onClick={getSearchMovies} />}
     </>
-  )
-} )
+  );
+});

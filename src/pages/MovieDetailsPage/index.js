@@ -1,50 +1,95 @@
 /** @format */
 
-import {memo, useEffect, useState} from 'react'
-import {NavLink, useLocation} from "react-router-dom";
-import {Route, Routes} from 'react-router-dom';
+import { memo, useEffect, useState } from "react";
 import axios from "axios";
-import {GoBackButton} from "../../components/GoBackButton";
-import {Movie, MovieNavigation, Cast, Review} from "../../components";
+import { Link, useParams, useNavigate } from "react-router-dom";
+
+import { Movie, Cast, Review } from "../../components";
+
+//import { getMovieDetails } from "../../services";
+import imageApi from "../../services/baseUrl";
+import url from "../../services/baseUrl";
+import { transformationMovie } from "../../utils";
+
+import styles from "./MovieDetailsPage.module.css";
 
 export const MovieDetailsPage = memo(() => {
   const [movie, setMovie] = useState(null);
-   const [isLoading, setLoading] =useState(false);
+  const [isLoading, setLoading] = useState(false);
 
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const location = useLocation();
+  const getMovieDetails = () => {
+    setLoading(true);
+    axios
+      .get(url.movieDetails(id))
+      .then(({ data }) => {
+        setMovie(transformationMovie(data));
+      })
+      .finally(() => setLoading(false));
+  };
+
+  //const handleCast = (results) => setMovie(results);
+  // const handleLoading = () => setLoading((prev) => !prev);
 
   useEffect(() => {
-    getData()
-  }, [])
-
-  const getData = () => {
-    setLoading(true);
-    const {movieId} = location.pathname;
-
-    axios.get(movieId)
-      .then((response) => {
-        setMovie({...response.data})
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false))
-  };
+    getMovieDetails();
+  }, [id]);
 
   const handleGoBack = () => {
-    location.push(location?.state?.from || "/" )
+    navigate(-1);
   };
 
-  return(
+  if (isLoading && !movie) {
+    return <h1>Loading ...</h1>;
+  }
+
+  return (
     <>
-      <GoBackButton onBack={handleGoBack}/>
-      {movie && <Movie movie={movie}/>}
-      {movie && <MovieNavigation/>}
-      
-      <NavLink  to="/cast" >Cast</NavLink>
-      <NavLink to="/reviews">Reviews</NavLink>
-      
-        {/*<Route exact path={`/movies/${location.pathname}/cast`} element={<Cast/>} />*/}
-        {/*<Route exact path={`/movies/${location.pathname}/reviews`} element={<Review/>}/>*/}
+      <div className={styles.container}>
+        <button className={styles.button} type="button" onClick={handleGoBack}>
+          Go Back
+        </button>
+
+        {movie && (
+          <>
+            <img
+              width={400}
+              height={400}
+              src={imageApi?.posterPath(movie?.poster_path)}
+              alt=""
+            />
+
+            <div className={styles.description}>
+              <h1>
+                {movie.title} {movie.date}
+              </h1>
+              <p>User score: {movie.vote_average}</p>
+              <h2>Overview</h2>
+              <p>{movie.overview}</p>
+              {/*<h3>Genres</h3>*/}
+              {/*<p>{id.genres.map((genre) => `${genre.name}`)} </p>*/}
+            </div>
+          </>
+        )}
+      </div>
+
+      <div className={styles.additional}>
+        <p>Additional information: </p>
+        <ul className={styles.list}>
+          <li className={styles.item}>
+            <Link className={styles.link} to={`/movies/${id}/cast`}>
+              Cast
+            </Link>
+          </li>
+          <li>
+            <Link className={styles.link} to={`/movies/${id}/reviews`}>
+              Reviews
+            </Link>
+          </li>
+        </ul>
+      </div>
     </>
-  )
-})
+  );
+});
