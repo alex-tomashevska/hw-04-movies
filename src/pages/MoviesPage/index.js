@@ -17,14 +17,21 @@ export const MoviesPage = memo(() => {
 
   const handleChangeValue = ({ target: { value } }) => setValue(value);
 
-  //const handleChangeMovies = (results) => setMovies(results);
+  const handleChangeMovies = (data) => setMovies((prev) => [...prev, ...data]);
+
   //const handleLoad = () => setLoading((prev) => !prev);
 
   const getSearchMovies = () => {
     setLoading(true);
     axios
       .get(url.searchMovies(value))
-      .then(({ data }) => setMovies(transformationMoviesData(data?.results)))
+      .then(({ data }) =>
+        // setMovies((prev) => [
+        //   ...prev,
+        //   ...transformationMoviesData(data?.results),
+        // ])
+        handleChangeMovies(transformationMoviesData(data?.results))
+      )
       // .catch(({ message }) => alert(message))
       .finally(() => setLoading(false));
   };
