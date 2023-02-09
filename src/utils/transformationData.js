@@ -40,3 +40,7 @@ export const transformationMoviesData = (items) =>
 export const transformationMoviesCast = (items) => {
   return items;
 };
+
+export const transformationMoviesReviews = (items) => {
+  return items;
+};
